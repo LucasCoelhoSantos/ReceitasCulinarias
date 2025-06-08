@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ReceitasCulinarias.API.Middleware;
-using ReceitasCulinarias.Application.Autenticacao.Interfaces;
-using ReceitasCulinarias.Application.Autenticacao.Services;
+using ReceitasCulinarias.Application.Auth.Interfaces;
+using ReceitasCulinarias.Application.Auth.Services;
 using ReceitasCulinarias.Application.Recipes.Interfaces;
 using ReceitasCulinarias.Application.Recipes.Services;
 using ReceitasCulinarias.Application.Recipes.Validators;
@@ -37,6 +37,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         sqlServerOptionsAction: sqlOptions =>
         {
             sqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
+
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(30),
+                errorNumbersToAdd: null
+            );
         }
     ));
 
@@ -138,6 +144,23 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+try
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await dbContext.Database.MigrateAsync();
+
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogInformation("Migrations aplicadas com sucesso na inicialização.");
+    }
+}
+catch (Exception ex)
+{
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "Ocorreu um erro durante a aplicação das migrations.");
+}
 
 // Configure the HTTP request pipeline.
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();

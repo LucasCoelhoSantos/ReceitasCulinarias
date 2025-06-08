@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReceitasCulinarias.API.Models;
-using ReceitasCulinarias.Application.Autenticacao.DTOs;
-using ReceitasCulinarias.Application.Autenticacao.Interfaces;
+using ReceitasCulinarias.Application.Auth.DTOs;
+using ReceitasCulinarias.Application.Auth.Interfaces;
 
 namespace ReceitasCulinarias.API.Controllers;
 
 [ApiController]
-[Route("api/v1/auth")]
+[Route("v1/auth")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;

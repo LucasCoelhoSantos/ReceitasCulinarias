@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using ReceitasCulinarias.Application.Autenticacao.DTOs;
+using ReceitasCulinarias.Application.Auth.DTOs;
 
-namespace ReceitasCulinarias.Application.Autenticacao.Interfaces;
+namespace ReceitasCulinarias.Application.Auth.Interfaces;
 
 public interface IAuthService
 {

@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using ReceitasCulinarias.Application.Autenticacao.DTOs;
-using ReceitasCulinarias.Application.Autenticacao.Interfaces;
+using ReceitasCulinarias.Application.Auth.DTOs;
+using ReceitasCulinarias.Application.Auth.Interfaces;
 using ReceitasCulinarias.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace ReceitasCulinarias.Application.Autenticacao.Services;
+namespace ReceitasCulinarias.Application.Auth.Services;
 
 public class AuthService : IAuthService
 {

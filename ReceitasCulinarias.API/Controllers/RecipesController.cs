@@ -7,7 +7,7 @@ using ReceitasCulinarias.Application.Recipes.Interfaces;
 namespace ReceitasCulinarias.API.Controllers;
 
 [ApiController]
-[Route("api/v1/recipes")]
+[Route("v1/recipes")]
 [Authorize]
 public class RecipesController : ControllerBase
 {
@@ -20,7 +20,7 @@ public class RecipesController : ControllerBase
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    // GET: api/v1/recipes
+    // GET: v1/recipes
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<RecipeDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll()
@@ -31,7 +31,7 @@ public class RecipesController : ControllerBase
         return Ok(recipes);
     }
 
-    // GET: api/v1/recipes/{id}
+    // GET: v1/recipes/{id}
     [HttpGet("{id:guid}")]
     [ProducesResponseType(typeof(RecipeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,7 +49,7 @@ public class RecipesController : ControllerBase
         return Ok(recipe);
     }
 
-    // POST: api/v1/recipes
+    // POST: v1/recipes
     [HttpPost]
     [ProducesResponseType(typeof(RecipeDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -61,7 +61,7 @@ public class RecipesController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = newRecipe.Id }, newRecipe);
     }
 
-    // PUT: api/v1/recipes/{id}
+    // PUT: v1/recipes/{id}
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -79,7 +79,7 @@ public class RecipesController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/v1/recipes/{id}
+    // DELETE: v1/recipes/{id}
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

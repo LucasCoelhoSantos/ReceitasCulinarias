@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ReceitasCulinarias.Application.Autenticacao.DTOs;
+namespace ReceitasCulinarias.Application.Auth.DTOs;
 
 public class LoginRequestDto
 {

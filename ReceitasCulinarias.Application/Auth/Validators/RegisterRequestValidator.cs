@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using ReceitasCulinarias.Application.Autenticacao.DTOs;
+using ReceitasCulinarias.Application.Auth.DTOs;
 
-namespace ReceitasCulinarias.Application.Autenticacao.Validators;
+namespace ReceitasCulinarias.Application.Auth.Validators;
 
 public class RegisterRequestValidator : AbstractValidator<RegisterRequestDto>
 {
