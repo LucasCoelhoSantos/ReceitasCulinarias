@@ -6,6 +6,7 @@ export const routes: Routes = [
   // Rotas de Autenticação
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  //{ path: 'recipes', component: RecipesComponent },
 
   // Rota Padrão: Redireciona para a tela de login se o usuário não estiver logado
   { path: '', redirectTo: '/login', pathMatch: 'full' },

@@ -7,7 +7,7 @@ using ReceitasCulinarias.Application.Recipes.Interfaces;
 namespace ReceitasCulinarias.API.Controllers;
 
 [ApiController]
-[Route("v1/recipes")]
+[Route("api/v1/recipes")]
 [Authorize]
 public class RecipesController : ControllerBase
 {

@@ -20,6 +20,7 @@ export class RegisterComponent {
 
   constructor() {
     this.registerForm = this.fb.group({
+      userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required]
@@ -32,8 +33,7 @@ export class RegisterComponent {
       this.authSerivce.register(this.registerForm.value).subscribe({
         next: (response) => {
           console.log('Login bem-sucedido!', response);
-          // TODO: Redirecionar para página principal/dashboard após o login
-          // this.router.vabigate(['/produtos']);
+          this.router.navigate(['/recipes']);
           alert('Registro bem-sucedido!');
         },
         error: (err) => {

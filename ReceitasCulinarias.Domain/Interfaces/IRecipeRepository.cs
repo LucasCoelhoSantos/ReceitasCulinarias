@@ -8,6 +8,6 @@ public interface IRecipeRepository
     Task<IEnumerable<Recipe>> GetAllAsync();
     Task CreateAsync(Recipe recipe);
     Task UpdateAsync(Recipe recipe);
-    Task DeleteAsync(Recipe id);
+    Task DeleteAsync(Recipe recipe);
     Task<bool> ExistsAsync(Guid id);
 }

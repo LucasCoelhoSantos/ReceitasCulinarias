@@ -31,8 +31,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           console.log('Login bem-sucedido!', response);
-          // TODO: Redirecionar para a página principal/dashboard após o login
-          // this.router.navigate(['/produtos']);
+          this.router.navigate(['/recipes']);
           alert('Login bem-sucedido!');
         },
         error: (err) => {

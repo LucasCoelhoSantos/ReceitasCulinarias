@@ -1,12 +1,19 @@
 services:
   receitasculinarias.db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/azure-sql-edge
     container_name: receitasculinarias.db
+    user: root
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=${DB_PASSWORD} # A senha virá do arquivo .env
+      - SA_PASSWORD=${DB_PASSWORD}
     volumes:
       - mssql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"${DB_PASSWORD}\" -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
   
   receitasculinarias.api:
     container_name: receitasculinarias.api
@@ -24,7 +31,8 @@ services:
       - Jwt__Audience=${JWT_AUDIENCE}
       - Jwt__DurationInMinutes=120
     depends_on:
-      - receitasculinarias.db
+      receitasculinarias.db:
+        condition: service_healthy
   
   receitasculinarias.frontend:
     container_name: receitasculinarias.frontend
@@ -36,7 +44,7 @@ services:
     container_name: nginx-proxy
     image: nginx:alpine
     ports:
-      - "80:80" # Mapeia a porta 80 do contêiner para a porta 80 do host
+      - "80:80"
     volumes:
         - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
