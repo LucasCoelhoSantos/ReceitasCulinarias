@@ -6,8 +6,12 @@
   </a>
 </div>
 
-<ng-container *ngIf="recipes$ | async as recipes; else loading">
+<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+  {{ errorMessage }}
+  <button class="btn btn-link p-0 ms-2" (click)="loadRecipes()">Tentar novamente</button>
+</div>
 
+<ng-container *ngIf="recipes$ | async as recipes; else loading">
   <div *ngIf="recipes.length > 0; else noRecipes" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <div *ngFor="let recipe of recipes" class="col">
       <div class="card h-100 shadow-sm recipe-card">
@@ -22,7 +26,7 @@
         </div>
         <div class="card-footer bg-transparent border-top-0 d-flex justify-content-end gap-2 p-3">
           <a [routerLink]="['/recipes/edit', recipe.id]" class="btn btn-outline-secondary btn-sm">Editar</a>
-          <button (click)="deleteRecipe(recipe.id)" class="btn btn-outline-danger btn-sm">Excluir</button>
+          <button (click)="deleteRecipe(recipe.id!)" class="btn btn-outline-danger btn-sm">Excluir</button>
         </div>
       </div>
     </div>
@@ -34,7 +38,6 @@
       <p>Que tal <a routerLink="/recipes/new">criar a primeira</a>?</p>
     </div>
   </ng-template>
-
 </ng-container>
 
 <ng-template #loading>

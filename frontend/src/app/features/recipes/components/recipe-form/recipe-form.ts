@@ -1,15 +1,16 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+
+import { HttpErrorResponse } from '@angular/common/http';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../models/recipe.model';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-recipe-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './recipe-form.html',
   styleUrls: ['./recipe-form.scss']
 })
@@ -35,7 +36,7 @@ export class RecipeFormComponent implements OnInit {
       instructions: ['', Validators.required],
       prepTimeMinutes: [0, [Validators.required, Validators.min(1)]],
       category: ['', Validators.required],
-      imageUrl: ['', Validators.required]
+      imageUrl: ['']
     });
 
     if (this.isEditMode && this.recipeId) {

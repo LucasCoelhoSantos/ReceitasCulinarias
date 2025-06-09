@@ -1,0 +1,95 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h2 class="card-title text-center mb-4">{{ isEditMode ? 'Editar Receita' : 'Criar Nova Receita' }}</h2>
+          <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" novalidate>
+            
+            <div class="mb-3">
+              <label for="name" class="form-label">Nome da Receita</label>
+              <input type="text" id="name" formControlName="name" class="form-control" 
+                     [class.is-invalid]="recipeForm.get('name')?.invalid && recipeForm.get('name')?.touched">
+              <div *ngIf="recipeForm.get('name')?.invalid && recipeForm.get('name')?.touched" class="invalid-feedback">
+                <div *ngIf="recipeForm.get('name')?.errors?.['required']">O nome é obrigatório.</div>
+                <div *ngIf="recipeForm.get('name')?.errors?.['minlength']">O nome deve ter pelo menos 3 caracteres.</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Descrição</label>
+                <textarea id="description" formControlName="description" class="form-control" rows="3"
+                          [class.is-invalid]="recipeForm.get('description')?.invalid && recipeForm.get('description')?.touched"></textarea>
+                <div *ngIf="recipeForm.get('description')?.invalid && recipeForm.get('description')?.touched" class="invalid-feedback">
+                  A descrição é obrigatória.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="ingredients" class="form-label">Ingredientes</label>
+                <textarea id="ingredients" formControlName="ingredients" class="form-control" rows="4"
+                          [class.is-invalid]="recipeForm.get('ingredients')?.invalid && recipeForm.get('ingredients')?.touched"
+                          placeholder="Digite cada ingrediente em uma nova linha"></textarea>
+                <div *ngIf="recipeForm.get('ingredients')?.invalid && recipeForm.get('ingredients')?.touched" class="invalid-feedback">
+                  Os ingredientes são obrigatórios.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="instructions" class="form-label">Modo de Preparo</label>
+                <textarea id="instructions" formControlName="instructions" class="form-control" rows="6"
+                          [class.is-invalid]="recipeForm.get('instructions')?.invalid && recipeForm.get('instructions')?.touched"
+                          placeholder="Digite o passo a passo da receita"></textarea>
+                <div *ngIf="recipeForm.get('instructions')?.invalid && recipeForm.get('instructions')?.touched" class="invalid-feedback">
+                  O modo de preparo é obrigatório.
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="prepTimeMinutes" class="form-label">Tempo de Preparo (minutos)</label>
+                    <input type="number" id="prepTimeMinutes" formControlName="prepTimeMinutes" class="form-control"
+                           [class.is-invalid]="recipeForm.get('prepTimeMinutes')?.invalid && recipeForm.get('prepTimeMinutes')?.touched">
+                    <div *ngIf="recipeForm.get('prepTimeMinutes')?.invalid && recipeForm.get('prepTimeMinutes')?.touched" class="invalid-feedback">
+                      O tempo de preparo é obrigatório e deve ser maior que zero.
+                    </div>
+                </div>
+
+                <div class="col-mb-6 mb-3">
+                  <label for="category" class="form-label">Categoria</label>
+                  <input type="text" id="category" formControlName="category" class="form-control" 
+                         [class.is-invalid]="recipeForm.get('category')?.invalid && recipeForm.get('category')?.touched">
+                  <div *ngIf="recipeForm.get('category')?.invalid && recipeForm.get('category')?.touched" class="invalid-feedback">
+                    <div *ngIf="recipeForm.get('category')?.errors?.['required']">A categoria é obrigatória.</div>
+                    <div *ngIf="recipeForm.get('category')?.errors?.['minlength']">A categoria deve ter pelo menos 3 caracteres.</div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="imageUrl" class="form-label">URL da Imagem</label>
+                <input type="url" id="imageUrl" formControlName="imageUrl" class="form-control"
+                       [class.is-invalid]="recipeForm.get('imageUrl')?.invalid && recipeForm.get('imageUrl')?.touched"
+                       placeholder="https://exemplo.com/imagem.jpg">
+                <div *ngIf="recipeForm.get('imageUrl')?.invalid && recipeForm.get('imageUrl')?.touched" class="invalid-feedback">
+                  A URL da imagem é obrigatória.
+                </div>
+            </div>
+
+            <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+              {{ errorMessage }}
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+              <button type="button" class="btn btn-secondary" routerLink="/recipes">Cancelar</button>
+              <button type="submit" [disabled]="recipeForm.invalid" class="btn btn-primary">
+                <i class="bi bi-check-circle me-1"></i>
+                {{ isEditMode ? 'Atualizar Receita' : 'Salvar Receita' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login';
-import { RegisterComponent } from './pages/register/register';
-import { RecipeListComponent } from './pages/recipe-list/recipe-list';
-import { RecipeFormComponent } from './pages/recipe-form/recipe-form';
-import { authGuard } from './guards/auth.guard';
+import { LoginComponent } from './features/auth/components/login/login';
+import { RegisterComponent } from './features/auth/components/register/register';
+import { RecipeListComponent } from './features/recipes/components/recipe-list/recipe-list';
+import { RecipeFormComponent } from './features/recipes/components/recipe-form/recipe-form';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   // Rotas de Autenticação

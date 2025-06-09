@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -34,7 +34,6 @@ export class RegisterComponent {
         next: (response) => {
           console.log('Login bem-sucedido!', response);
           this.router.navigate(['/recipes']);
-          alert('Registro bem-sucedido!');
         },
         error: (err) => {
           console.error('Falha no login', err);

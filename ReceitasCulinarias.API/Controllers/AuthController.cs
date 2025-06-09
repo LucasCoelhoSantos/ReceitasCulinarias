@@ -38,14 +38,13 @@ public class AuthController : ControllerBase
         _logger.LogWarning("Falha no registro do usuário {Email}. Erros: {Errors}",
             registroDto.Email, result.Errors.Select(e => e.Description));
 
-        // Retorna os erros do IdentityResult
         return BadRequest(result.Errors.Select(e => new { e.Code, e.Description }));
     }
 
     [HttpPost("login")]
-    [AllowAnonymous] // Permite acesso anônimo a este endpoint
+    [AllowAnonymous]
     [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)] // Para credenciais inválidas ou validação
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto loginDto)
     {

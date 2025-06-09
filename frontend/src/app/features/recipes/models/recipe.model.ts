@@ -1,12 +1,12 @@
 export interface Recipe {
-  id: string;
-  createdDate: Date;
-  updatedDate?: Date;
+  id?: string;
   name: string;
   description: string;
-  ingredients: string;
+  ingredients: string[];
   instructions: string;
   prepTimeMinutes: number;
-  category: string;
+  category: number;
   imageUrl?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

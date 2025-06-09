@@ -14,7 +14,6 @@ public class RegisterRequestDto
 
     [Required(ErrorMessage = "A senha é obrigatória.")]
     [DataType(DataType.Password)]
-    // A complexidade da senha será validada pelas opções do Identity
     public string Password { get; set; }
 
     [DataType(DataType.Password)]
