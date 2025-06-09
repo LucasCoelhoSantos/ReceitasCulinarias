@@ -1,0 +1,42 @@
+<div class="recipe-list-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Minhas Receitas</h2>
+    <a routerLink="/recipes/new" class="btn btn-primary">
+      <i class="bi bi-plus-circle me-1"></i>
+      Criar Nova Receita
+    </a>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+    <button class="btn btn-link p-0 ms-2" (click)="loadRecipes()">Tentar novamente</button>
+  </div>
+
+  <ng-container *ngIf="recipes$ | async as recipes; else loading">
+    <div *ngIf="recipes.length > 0; else noRecipes" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div *ngFor="let recipe of recipes" class="col">
+        <app-recipe-card
+          [recipe]="recipe"
+          (viewRecipeDetails)="onViewRecipeDetails($event)"
+          (deleteRecipe)="onDeleteRecipe($event)">
+        </app-recipe-card>
+      </div>
+    </div>
+
+    <ng-template #noRecipes>
+      <div class="text-center mt-5 p-5 bg-light rounded">
+        <h4>Nenhuma receita encontrada.</h4>
+        <p>Que tal <a routerLink="/recipes/new">criar a primeira</a>?</p>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="text-center mt-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-2">Carregando receitas...</p>
+    </div>
+  </ng-template>
+</div> 

@@ -2,7 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-
 import { HttpErrorResponse } from '@angular/common/http';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../models/recipe.model';
@@ -11,8 +10,8 @@ import { Recipe } from '../../models/recipe.model';
   selector: 'app-recipe-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
-  templateUrl: './recipe-form.html',
-  styleUrls: ['./recipe-form.scss']
+  templateUrl: './recipe-form.component.html',
+  styleUrls: ['./recipe-form.component.scss']
 })
 export class RecipeFormComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -72,25 +71,11 @@ export class RecipeFormComponent implements OnInit {
   }
 
   private handleSuccess(recipe?: Recipe): void {
-    const action = this.isEditMode ? 'atualizada' : 'criada';
-    alert(`Receita ${action} com sucesso!`);
     this.router.navigate(['/recipes']);
   }
 
-  private handleError(err: HttpErrorResponse): void {
-    console.error('Ocorreu um erro:', err);
-    if (err.error) {
-      if (typeof err.error === 'string') {
-        this.errorMessage = err.error;
-      } else if (err.error.errors && Array.isArray(err.error.errors)) {
-        this.errorMessage = err.error.errors.join('<br>');
-      } else if (err.error.message) {
-        this.errorMessage = err.error.message;
-      } else {
-        this.errorMessage = 'Ocorreu um erro desconhecido.';
-      }
-    } else {
-      this.errorMessage = 'Ocorreu um erro na operação. Por favor, tente novamente.';
-    }
+  private handleError(error: HttpErrorResponse): void {
+    this.errorMessage = 'Ocorreu um erro ao salvar a receita. Por favor, tente novamente.';
+    console.error('Erro ao salvar receita:', error);
   }
-}
+} 

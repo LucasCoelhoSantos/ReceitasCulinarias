@@ -1,0 +1,132 @@
+.recipe-details-container {
+  padding: 1rem;
+  
+  @media (max-width: 576px) {
+    padding: 0.5rem;
+  }
+}
+
+.recipe-header {
+  position: relative;
+  margin-bottom: 2rem;
+  
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+  }
+}
+
+.recipe-image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 50%; // 2:1 aspect ratio
+  overflow: hidden;
+  border-radius: 0.5rem 0.5rem 0 0;
+  
+  @media (max-width: 768px) {
+    padding-top: 66.67%; // 3:2 aspect ratio for mobile
+  }
+}
+
+.recipe-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recipe-header-content {
+  padding: 1.5rem;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
+
+.recipe-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.recipe-meta {
+  margin-bottom: 1rem;
+  
+  .badge {
+    font-size: 0.9rem;
+    padding: 0.5em 0.75em;
+    
+    @media (max-width: 768px) {
+      font-size: 0.8rem;
+      padding: 0.4em 0.6em;
+    }
+  }
+}
+
+.recipe-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.ingredients-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    font-size: 1rem;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    @media (max-width: 768px) {
+      font-size: 0.9rem;
+      padding: 0.4rem 0;
+    }
+  }
+}
+
+.instructions {
+  font-size: 1rem;
+  line-height: 1.6;
+  white-space: pre-line;
+  
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+}
+
+.card-footer {
+  .btn {
+    padding: 0.5rem 1rem;
+    
+    @media (max-width: 768px) {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.9rem;
+    }
+  }
+} 

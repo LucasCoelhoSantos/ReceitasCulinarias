@@ -45,17 +45,14 @@ public class RecipeServiceTests
         var createRecipeDto = new CreateRecipeRequestDto { Name = "Receita Teste", Description = "Descrição Teste", Ingredients = "Tomate", Instructions = "Fatiar", PrepTimeMinutes = 5, Category = "Salada", ImageUrl = "url.com.br" };
         var recipe = new Recipe(createRecipeDto.Name, createRecipeDto.Description, createRecipeDto.Ingredients, createRecipeDto.Instructions, createRecipeDto.PrepTimeMinutes, createRecipeDto.Category, createRecipeDto.ImageUrl);
 
-        // Configura o mock do validador para retornar um resultado válido
         _mockCreateRecipeValidator
             .Setup(v => v.ValidateAsync(It.IsAny<CreateRecipeRequestDto>(), It.IsAny<System.Threading.CancellationToken>()))
-            .ReturnsAsync(new ValidationResult()); // Resultado de validação válido (sem erros)
+            .ReturnsAsync(new ValidationResult());
 
-        // Configura o mock do repositório para AddAsync
         _mockRecipeRepository.Setup(r => r.CreateAsync(It.IsAny<Recipe>()))
-            .Returns(Task.CompletedTask) // Ou .Callback<Recipe>(p => { /* pode inspecionar 'p' aqui */ });
-            .Verifiable(); // Marca para verificação posterior
+            .Returns(Task.CompletedTask)
+            .Verifiable();
 
-        // Configura o mock do UnitOfWork para SaveChangesAsync
         _mockUnitOfWork.Setup(uow => uow.SaveChangesAsync(It.IsAny<System.Threading.CancellationToken>()))
             .ReturnsAsync(1) // Simula que 1 registro foi afetado
             .Verifiable();
@@ -63,7 +60,7 @@ public class RecipeServiceTests
         // Act
         var resultDto = await _recipeService.CreateAsync(createRecipeDto);
 
-        // Assert (Verificar)
+        // Assert
         resultDto.Should().NotBeNull();
         resultDto.Id.Should().NotBeEmpty();
         resultDto.Name.Should().Be(createRecipeDto.Name);
@@ -98,10 +95,9 @@ public class RecipeServiceTests
 
         _mockCreateRecipeValidator
             .Setup(v => v.ValidateAsync(It.IsAny<CreateRecipeRequestDto>(), It.IsAny<System.Threading.CancellationToken>()))
-            .ReturnsAsync(validationResult); // Resultado de validação inválido
+            .ReturnsAsync(validationResult);
 
         // Act & Assert
-        // Verifica se uma ValidationException é lançada
         await _recipeService.Invoking(s => s.CreateAsync(createRecipeDto))
             .Should().ThrowAsync<ValidationException>()
             .WithMessage("*O nome da receita é obrigatório.*")
@@ -212,7 +208,7 @@ public class RecipeServiceTests
 
         // Assert
         result.Should().BeTrue();
-        recipeExists.Name.Should().Be(updateDto.Name); // Verifica se o método de atualização foi chamado na entidade
+        recipeExists.Name.Should().Be(updateDto.Name);
 
         _mockRecipeRepository.Verify(r => r.GetByIdAsync(recipeId), Times.Once);
         _mockUnitOfWork.Verify(uow => uow.SaveChangesAsync(It.IsAny<System.Threading.CancellationToken>()), Times.Once);

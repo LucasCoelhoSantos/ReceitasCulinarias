@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/components/login/login';
 import { RegisterComponent } from './features/auth/components/register/register';
-import { RecipeListComponent } from './features/recipes/components/recipe-list/recipe-list';
-import { RecipeFormComponent } from './features/recipes/components/recipe-form/recipe-form';
+import { RecipeListComponent } from './features/recipes/components/recipe-list/recipe-list.component';
+import { RecipeFormComponent } from './features/recipes/components/recipe-form/recipe-form.component';
+import { RecipeDetailsComponent } from './features/recipes/components/recipe-details/recipe-details.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -24,6 +25,11 @@ export const routes: Routes = [
   {
     path: 'recipes/edit/:id',
     component: RecipeFormComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'recipes/:id',
+    component: RecipeDetailsComponent,
     canActivate: [authGuard]
   },
 

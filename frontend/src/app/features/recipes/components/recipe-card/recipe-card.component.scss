@@ -1,0 +1,69 @@
+.recipe-card {
+  transition: transform 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.recipe-image-container {
+  position: relative;
+  padding-top: 56.25%; // 16:9 aspect ratio
+  overflow: hidden;
+  
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  
+  @media (max-width: 576px) {
+    font-size: 1.1rem;
+  }
+}
+
+.card-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  
+  @media (max-width: 576px) {
+    font-size: 0.85rem;
+  }
+}
+
+.recipe-meta {
+  margin-top: 1rem;
+  
+  .badge {
+    font-size: 0.8rem;
+    padding: 0.5em 0.75em;
+    
+    @media (max-width: 576px) {
+      font-size: 0.75rem;
+      padding: 0.4em 0.6em;
+    }
+  }
+}
+
+.card-footer {
+  .btn {
+    padding: 0.5rem 0.75rem;
+    
+    @media (max-width: 576px) {
+      padding: 0.4rem 0.6rem;
+    }
+    
+    i {
+      font-size: 0.9rem;
+    }
+  }
+} 

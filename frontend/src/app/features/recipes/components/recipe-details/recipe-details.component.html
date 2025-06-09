@@ -1,0 +1,63 @@
+<div class="recipe-details-container">
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+    <button class="btn btn-link p-0 ms-2" (click)="loadRecipe(route.snapshot.paramMap.get('id')!)">Tentar novamente</button>
+  </div>
+
+  <ng-container *ngIf="recipe$ | async as recipe; else loading">
+    <div class="card shadow-sm">
+      <div class="recipe-header">
+        <div class="recipe-image-container">
+          <img [src]="recipe.imageUrl || 'https://placehold.co/1200x600/EEE/31343C?text=Sem+Imagem'" 
+               [alt]="recipe.name"
+               class="recipe-image">
+        </div>
+        <div class="recipe-header-content">
+          <h1 class="recipe-title">{{ recipe.name }}</h1>
+          <div class="recipe-meta">
+            <span class="badge bg-secondary me-2">{{ recipe.category }}</span>
+            <span class="badge bg-info text-dark">
+              <i class="bi bi-clock me-1"></i>{{ recipe.prepTimeMinutes }} min
+            </span>
+          </div>
+          <p class="recipe-description">{{ recipe.description }}</p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <h3 class="section-title">Ingredientes</h3>
+            <div class="ingredients">
+              {{ recipe.ingredients }}
+            </div>
+          </div>
+          <div class="col-md-8">
+            <h3 class="section-title">Modo de Preparo</h3>
+            <div class="instructions">
+              {{ recipe.instructions }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer bg-transparent border-top-0 d-flex justify-content-end gap-2 p-3">
+        <a [routerLink]="['/recipes/edit', recipe.id]" class="btn btn-outline-secondary">
+          <i class="bi bi-pencil me-1"></i>Editar
+        </a>
+        <button (click)="onDeleteRecipe(recipe.id!)" class="btn btn-outline-danger">
+          <i class="bi bi-trash me-1"></i>Excluir
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="text-center mt-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-2">Carregando detalhes da receita...</p>
+    </div>
+  </ng-template>
+</div> 
