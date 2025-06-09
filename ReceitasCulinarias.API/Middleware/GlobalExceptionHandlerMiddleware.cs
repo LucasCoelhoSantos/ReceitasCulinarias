@@ -66,7 +66,7 @@ public class GlobalExceptionHandlerMiddleware
 
         var jsonResponse = JsonSerializer.Serialize(errorResponse, new JsonSerializerOptions
         {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase // Para manter o padrão camelCase no JSON
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         });
 
         return context.Response.WriteAsync(jsonResponse);

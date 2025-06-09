@@ -124,9 +124,6 @@ public class RecipeServiceTests
 
         var createRecipeDto = new CreateRecipeRequestDto { Name = "Receita Teste", Description = "Descrição Teste", Ingredients = "Tomate", Instructions = "Fatiar", PrepTimeMinutes = 5, Category = "Salada", ImageUrl = "url.com.br" };
         var recipe = new Recipe(createRecipeDto.Name, createRecipeDto.Description, createRecipeDto.Ingredients, createRecipeDto.Instructions, createRecipeDto.PrepTimeMinutes, createRecipeDto.Category, createRecipeDto.ImageUrl);
-        // Para garantir que o ID é o mesmo, precisaríamos de um construtor que aceite o ID ou usar reflection,
-        // mas para o teste do serviço, podemos assumir que o repositório retorna a entidade correta.
-        // O mapeamento DTO <-> Entidade é o foco aqui.
 
         _mockRecipeRepository.Setup(r => r.GetByIdAsync(recipeId)).ReturnsAsync(recipe);
 

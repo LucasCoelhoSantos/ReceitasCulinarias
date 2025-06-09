@@ -88,7 +88,6 @@ public class RecipeService : IRecipeService
         if (!validationResult.IsValid)
         {
             _logger.LogWarning("Validação falhou para criação da receita: {RecipeName}. Erros: {ValidationErrors}", recipeDto.Name, validationResult.Errors.Select(e => e.ErrorMessage));
-            // É uma boa prática encapsular isso em uma exceção customizada de validação.
             throw new ValidationException(validationResult.Errors);
         }
 

@@ -79,10 +79,18 @@ export class RecipeFormComponent implements OnInit {
 
   private handleError(err: HttpErrorResponse): void {
     console.error('Ocorreu um erro:', err);
-    if (err.error && typeof err.error === 'string') {
+    if (err.error) {
+      if (typeof err.error === 'string') {
         this.errorMessage = err.error;
+      } else if (err.error.errors && Array.isArray(err.error.errors)) {
+        this.errorMessage = err.error.errors.join('<br>');
+      } else if (err.error.message) {
+        this.errorMessage = err.error.message;
+      } else {
+        this.errorMessage = 'Ocorreu um erro desconhecido.';
+      }
     } else {
-        this.errorMessage = `Ocorreu um erro na operação. Por favor, tente novamente.`;
+      this.errorMessage = 'Ocorreu um erro na operação. Por favor, tente novamente.';
     }
   }
 }

@@ -8,10 +8,10 @@ public class ErrorResponse
     public string Message { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<string>? Errors { get; set; } // Para múltiplos erros, como validação
+    public IEnumerable<string>? Errors { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? StackTrace { get; set; } // Apenas em ambiente de desenvolvimento
+    public string? StackTrace { get; set; }
 
     public ErrorResponse(int statusCode, string message)
     {

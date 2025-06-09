@@ -64,7 +64,7 @@ public class AuthService : IAuthService
         {
             UserName = registroDto.UserName,
             Email = registroDto.Email,
-            SecurityStamp = Guid.NewGuid().ToString() // SecurityStamp é importante
+            SecurityStamp = Guid.NewGuid().ToString()
         };
 
         var result = await _userManager.CreateAsync(user, registroDto.Password);
@@ -72,7 +72,6 @@ public class AuthService : IAuthService
         if (result.Succeeded)
         {
             _logger.LogInformation("Usuário {UserName} registrado com sucesso.", user.UserName);
-            // Opcional: Adicionar a um role padrão. Ex: await _userManager.AddToRoleAsync(user, "UsuarioComum");
         }
         else
         {
@@ -86,26 +85,23 @@ public class AuthService : IAuthService
         var validationResult = await _loginValidator.ValidateAsync(loginDto);
         if (!validationResult.IsValid)
         {
-            // Poderia lançar ValidationException ou retornar null/uma resposta de erro específica.
-            // Por simplicidade, retornaremos null indicando falha de validação inicial.
             _logger.LogWarning("Validação de login falhou para o email: {Email}. Erros: {Errors}",
                loginDto.Email, validationResult.Errors.Select(e => e.ErrorMessage));
-            return null; // Ou um DTO de erro
+            return null;
         }
 
         var user = await _userManager.FindByEmailAsync(loginDto.Email);
         if (user == null)
         {
             _logger.LogWarning("Tentativa de login para email não registrado: {Email}", loginDto.Email);
-            return null; // Usuário não encontrado
+            return null;
         }
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, lockoutOnFailure: false);
         if (!result.Succeeded)
         {
             _logger.LogWarning("Tentativa de login falhou para o usuário: {Email}. Motivo: {SignInResult}", loginDto.Email, result.ToString());
-            // Não especificar se é usuário ou senha incorreta por segurança.
-            return null; // Credenciais inválidas ou conta bloqueada
+            return null;
         }
 
         var userRoles = await _userManager.GetRolesAsync(user);
@@ -131,11 +127,11 @@ public class AuthService : IAuthService
     {
         var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id), // ID do usuário
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email), // 'Subject' - geralmente o email ou username
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // JWT ID único
-                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64) // 'Issued At'
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
             };
 
         foreach (var role in roles)

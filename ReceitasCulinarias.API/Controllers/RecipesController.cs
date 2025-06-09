@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-//using Microsoft.Extensions.Logging;
 using ReceitasCulinarias.Application.Recipes.DTOs;
 using ReceitasCulinarias.Application.Recipes.Interfaces;
 
@@ -20,7 +19,7 @@ public class RecipesController : ControllerBase
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    // GET: v1/recipes
+    // GET: api/v1/recipes
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<RecipeDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll()
@@ -31,7 +30,7 @@ public class RecipesController : ControllerBase
         return Ok(recipes);
     }
 
-    // GET: v1/recipes/{id}
+    // GET: api/v1/recipes/{id}
     [HttpGet("{id:guid}")]
     [ProducesResponseType(typeof(RecipeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,7 +48,7 @@ public class RecipesController : ControllerBase
         return Ok(recipe);
     }
 
-    // POST: v1/recipes
+    // POST: api/v1/recipes
     [HttpPost]
     [ProducesResponseType(typeof(RecipeDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -61,7 +60,7 @@ public class RecipesController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = newRecipe.Id }, newRecipe);
     }
 
-    // PUT: v1/recipes/{id}
+    // PUT: api/v1/recipes/{id}
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -79,7 +78,7 @@ public class RecipesController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: v1/recipes/{id}
+    // DELETE: api/v1/recipes/{id}
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

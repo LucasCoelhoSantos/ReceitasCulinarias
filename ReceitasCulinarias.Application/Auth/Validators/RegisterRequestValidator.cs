@@ -18,7 +18,6 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequestDto>
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("A senha é obrigatória.");
-        // A complexidade da senha será reforçada pelas configurações do Identity.
 
         RuleFor(x => x.ConfirmPassword)
             .NotEmpty().WithMessage("A confirmação de senha é obrigatória.")
