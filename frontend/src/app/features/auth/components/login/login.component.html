@@ -1,0 +1,44 @@
+<div class="auth-container">
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+      <h2 class="text-center mb-4">Login</h2>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" formControlName="email" class="form-control"
+                 [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="invalid-feedback">
+            <div *ngIf="loginForm.get('email')?.errors?.['required']">O email é obrigatório.</div>
+            <div *ngIf="loginForm.get('email')?.errors?.['email']">Digite um email válido.</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Senha</label>
+          <input type="password" id="password" formControlName="password" class="form-control"
+                 [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="invalid-feedback">
+            <div *ngIf="loginForm.get('password')?.errors?.['required']">A senha é obrigatória.</div>
+            <div *ngIf="loginForm.get('password')?.errors?.['minlength']">A senha deve ter pelo menos 6 caracteres.</div>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || isLoading">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            {{ isLoading ? 'Entrando...' : 'Entrar' }}
+          </button>
+        </div>
+      </form>
+
+      <div class="text-center mt-3">
+        <p class="mb-0">Não tem uma conta? <a routerLink="/register">Registre-se</a></p>
+      </div>
+    </div>
+  </div>
+</div> 

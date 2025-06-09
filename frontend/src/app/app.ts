@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from './features/auth/services/auth.service';
+import { AuthService } from './core/services/auth.service';
+
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class App {
   private router = inject(Router);
 
   isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
+    return this.authService.isAuthenticated();
   }
 
   logout(): void {
