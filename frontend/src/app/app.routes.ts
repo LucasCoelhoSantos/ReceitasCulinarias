@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './pages/register/register';
 import { RecipeListComponent } from './pages/recipe-list/recipe-list';
+import { RecipeFormComponent } from './pages/recipe-form/recipe-form';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -9,15 +10,24 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   
+  // Rotas de Receitas (Protegidas)
   {
     path: 'recipes',
     component: RecipeListComponent,
     canActivate: [authGuard]
   },
+  {
+    path: 'recipes/new',
+    component: RecipeFormComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'recipes/edit/:id',
+    component: RecipeFormComponent,
+    canActivate: [authGuard]
+  },
 
-  // Rota Padrão: Redireciona para a tela de login se o usuário não estiver logado
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
 
-  // Rota "Catch-all": Redireciona para a rota padrão se a URL não for encontrada
-  { path: '**', redirectTo: '/login' }
+  { path: '**', redirectTo: '/recipes' }
 ];

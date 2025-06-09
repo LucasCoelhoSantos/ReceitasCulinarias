@@ -16,18 +16,18 @@ export class RecipeService {
   }
 
   getRecipeById(id: string): Observable<Recipe> {
-    return this.http.get<Recipe>(`<span class="math-inline">\{this\.apiUrl\}/</span>{id}`);
+    return this.http.get<Recipe>(`${this.apiUrl}${id}`);
   }
 
-  createRecipe(recipeData: Omit<Recipe, 'id' | 'dataDeCriacao' | 'dataDeAlteracao'>): Observable<Recipe> {
+  createRecipe(recipeData: Omit<Recipe, 'id' | 'createdDate' | 'updatedDate'>): Observable<Recipe> {
     return this.http.post<Recipe>(this.apiUrl, recipeData);
   }
 
-  updateRecipe(id: string, recipeData: Partial<Recipe>): Observable<void> {
-    return this.http.put<void>(`<span class="math-inline">\{this\.apiUrl\}/</span>{id}`, recipeData);
+  updateRecipe(id: string, recipeData: Partial<Omit<Recipe, 'id' | 'createdDate' | 'updatedDate' >>): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, recipeData);
   }
 
   deleteRecipe(id: string): Observable<void> {
-    return this.http.delete<void>(`<span class="math-inline">\{this\.apiUrl\}/</span>{id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
