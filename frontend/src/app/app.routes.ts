@@ -1,12 +1,19 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './pages/register/register';
+import { RecipeListComponent } from './pages/recipe-list/recipe-list';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   // Rotas de Autenticação
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  //{ path: 'recipes', component: RecipesComponent },
+  
+  {
+    path: 'recipes',
+    component: RecipeListComponent,
+    canActivate: [authGuard]
+  },
 
   // Rota Padrão: Redireciona para a tela de login se o usuário não estiver logado
   { path: '', redirectTo: '/login', pathMatch: 'full' },
