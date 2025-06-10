@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../models/recipe.model';
+import { ConfirmDialogService } from '../../../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-recipe-form',
@@ -18,6 +19,7 @@ export class RecipeFormComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private recipeService = inject(RecipeService);
+  private confirmDialogService = inject(ConfirmDialogService);
 
   recipeForm!: FormGroup;
   isEditMode = false;
@@ -50,10 +52,21 @@ export class RecipeFormComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.recipeForm.invalid) {
       return;
     }
+
+    const action = this.isEditMode ? 'salvar as alterações' : 'criar a receita';
+    const confirmed = await this.confirmDialogService.showDialog({
+      title: 'Confirmar ação',
+      message: `Tem certeza que deseja ${action}?`
+    });
+
+    if (!confirmed) {
+      return;
+    }
+
     this.errorMessage = null;
     const recipeData = this.recipeForm.value;
 
@@ -75,7 +88,15 @@ export class RecipeFormComponent implements OnInit {
   }
 
   private handleError(error: HttpErrorResponse): void {
-    this.errorMessage = 'Ocorreu um erro ao salvar a receita. Por favor, tente novamente.';
     console.error('Erro ao salvar receita:', error);
+    if (error.error?.message) {
+      this.errorMessage = error.error.message;
+    } else if (error.error?.errors) {
+      // Se houver múltiplos erros de validação
+      const errorMessages = Object.values(error.error.errors).flat();
+      this.errorMessage = errorMessages.join('\n');
+    } else {
+      this.errorMessage = 'Ocorreu um erro ao salvar a receita. Por favor, tente novamente.';
+    }
   }
 } 

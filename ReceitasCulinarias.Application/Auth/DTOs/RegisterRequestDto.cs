@@ -15,8 +15,4 @@ public class RegisterRequestDto
     [Required(ErrorMessage = "A senha é obrigatória.")]
     [DataType(DataType.Password)]
     public string Password { get; set; }
-
-    [DataType(DataType.Password)]
-    [Compare("Password", ErrorMessage = "A senha e a confirmação de senha não correspondem.")]
-    public string ConfirmPassword { get; set; }
 }

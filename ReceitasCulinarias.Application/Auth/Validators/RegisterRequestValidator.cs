@@ -18,9 +18,5 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequestDto>
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("A senha é obrigatória.");
-
-        RuleFor(x => x.ConfirmPassword)
-            .NotEmpty().WithMessage("A confirmação de senha é obrigatória.")
-            .Equal(x => x.Password).WithMessage("A senha e a confirmação de senha não correspondem.");
     }
 }

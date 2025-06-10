@@ -1,15 +1,18 @@
-// Em frontend/src/app/services/auth.interceptor.ts
-import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
+import { Observable,throwError } from 'rxjs';
+import { AuthService } from '../../../core/services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-
+  const router = inject(Router);
   const token = localStorage.getItem('authToken');
+  const authService = inject(AuthService);
 
-  // Se o token existir, clonamos a requisição e adicionamos o header de autorização.
   if (token) {
     const cloned = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`),
@@ -18,6 +21,14 @@ export const authInterceptor: HttpInterceptorFn = (
     return next(cloned);
   }
 
-  // Se não houver token, apenas continuamos com a requisição original.
-  return next(req);
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        console.log('Token inválido ou expirado');
+        authService.logout();
+        router.navigate(['/login']);
+      }
+      return throwError(() => error);
+    })
+  );
 };

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
@@ -53,9 +54,17 @@ export class RegisterComponent {
         next: () => {
           this.router.navigate(['/recipes']);
         },
-        error: (err) => {
-          console.error('Falha no registro:', err);
-          this.errorMessage = 'Erro ao criar conta. Por favor, tente novamente.';
+        error: (error: HttpErrorResponse) => {
+          console.error('Falha no registro:', error);
+          if (error.error?.message) {
+            this.errorMessage = error.error.message;
+          } else if (error.error?.errors) {
+            // Se houver múltiplos erros de validação
+            const errorMessages = Object.values(error.error.errors).flat();
+            this.errorMessage = errorMessages.join('\n');
+          } else {
+            this.errorMessage = 'Erro ao criar conta. Por favor, tente novamente.';
+          }
           this.isLoading = false;
         }
       });
