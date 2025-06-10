@@ -106,6 +106,7 @@ builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<DataSeeder>();
 
 // Registrar todos os validadores do assembly que contém CreateRecipeRequestValidator (Desafio.Application)
 builder.Services.AddValidatorsFromAssemblyContaining<CreateRecipeRequestValidator>(); ;
@@ -145,21 +146,19 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-try
+using (var scope = app.Services.CreateScope())
 {
-    using (var scope = app.Services.CreateScope())
+    var services = scope.ServiceProvider;
+    try
     {
-        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        await dbContext.Database.MigrateAsync();
-
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogInformation("Migrations aplicadas com sucesso na inicialização.");
+        var seeder = services.GetRequiredService<DataSeeder>();
+        await seeder.SeedAsync();
     }
-}
-catch (Exception ex)
-{
-    var logger = app.Services.GetRequiredService<ILogger<Program>>();
-    logger.LogError(ex, "Ocorreu um erro durante a aplicação das migrations.");
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Ocorreu um erro durante o processo de migração ou seed do banco de dados.");
+    }
 }
 
 // Configure the HTTP request pipeline.
