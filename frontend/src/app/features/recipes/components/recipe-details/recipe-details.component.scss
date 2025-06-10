@@ -18,12 +18,12 @@
 .recipe-image-container {
   position: relative;
   width: 100%;
-  padding-top: 50%; // 2:1 aspect ratio
+  padding-top: 50%;
   overflow: hidden;
   border-radius: 0.5rem 0.5rem 0 0;
   
   @media (max-width: 768px) {
-    padding-top: 66.67%; // 3:2 aspect ratio for mobile
+    padding-top: 66.67%;
   }
 }
 

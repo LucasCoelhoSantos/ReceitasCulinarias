@@ -12,6 +12,8 @@
     <button class="btn btn-link p-0 ms-2" (click)="loadRecipes()">Tentar novamente</button>
   </div>
 
+  <!--TODO: Adicionar um filtro de busca para as receitas-->
+
   <ng-container *ngIf="recipes$ | async as recipes; else loading">
     <div *ngIf="recipes.length > 0; else noRecipes" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <div *ngFor="let recipe of recipes" class="col">
